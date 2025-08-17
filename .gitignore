@@ -1,0 +1,25 @@
+# Virtual environment
+venv/
+.env/
+
+# DVC cache 
+.dvc/cache/
+*.dvc.lock
+
+src/data/*
+!src/data/.gitkeep  
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+*.log
+
+.ipynb_checkpoints/
+
+.vscode/
+.idea/
+
+.DS_Store
+Thumbs.db
