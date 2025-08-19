@@ -23,3 +23,6 @@ __pycache__/
 
 .DS_Store
 Thumbs.db
+/random_forest_model.pkl
+/etrics
+/model_evaluation_metrics.json

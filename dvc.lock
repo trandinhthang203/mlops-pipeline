@@ -31,3 +31,36 @@ stages:
       md5: 09d7d1468d5c1e6739769af7e3154438.dir
       size: 546137
       nfiles: 2
+  model-building:
+    cmd: python src/model-building.py
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: 09d7d1468d5c1e6739769af7e3154438.dir
+      size: 546137
+      nfiles: 2
+    - path: src/model-building.py
+      hash: md5
+      md5: 8ce6c8648dc0964c96ac44622b7bbc35
+      size: 494
+    outs:
+    - path: random_forest_model.pkl
+      hash: md5
+      md5: 8aa14923cc883d394c93d4670851ceb9
+      size: 7328751
+  model-eval:
+    cmd: python src/model-eval.py
+    deps:
+    - path: random_forest_model.pkl
+      hash: md5
+      md5: 8aa14923cc883d394c93d4670851ceb9
+      size: 7328751
+    - path: src/model-eval.py
+      hash: md5
+      md5: 439ee029f04de55b56069cb5d6413512
+      size: 782
+    outs:
+    - path: model_evaluation_metrics.json
+      hash: md5
+      md5: d1f4fceec2ec16dddfc1570f6b7fd65d
+      size: 150

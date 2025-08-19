@@ -12,3 +12,17 @@ stages:
     - data/raw
     outs:
     - data/processed
+  model-building:
+    cmd: python src/model-building.py
+    deps:
+    - data/processed
+    - src/model-building.py
+    outs:
+    - random_forest_model.pkl
+  model-eval:
+    cmd: python src/model-eval.py
+    deps:
+    - random_forest_model.pkl
+    - src/model-eval.py
+    metrics:
+    - model_evaluation_metrics.json
