@@ -3,6 +3,8 @@ stages:
     cmd: python src/data-collection.py
     deps:
     - src/data-collection.py
+    params:
+    - data-collection.test_size
     outs:
     - data/raw
   data-preprocessing:
@@ -17,6 +19,8 @@ stages:
     deps:
     - data/processed
     - src/model-building.py
+    params:
+    - model-building.n_estimators
     outs:
     - random_forest_model.pkl
   model-eval:
