@@ -1,0 +1,72 @@
+schema: '2.0'
+stages:
+  data-collection:
+    cmd: python src/data/data-collection.py
+    deps:
+    - path: src/data/data-collection.py
+      hash: md5
+      md5: d51770861af0f2cbff5befbfb059ac8e
+      size: 1588
+    params:
+      params.yaml:
+        data-collection.test_size: 0.1
+    outs:
+    - path: data/raw
+      hash: md5
+      md5: 3c46582a92890c4a21f56009a69e1bc4.dir
+      size: 522262
+      nfiles: 2
+  data-preprocessing:
+    cmd: python src/data/data-prep.py
+    deps:
+    - path: data/raw
+      hash: md5
+      md5: 3c46582a92890c4a21f56009a69e1bc4.dir
+      size: 522262
+      nfiles: 2
+    - path: src/data/data-prep.py
+      hash: md5
+      md5: cd8ede368ca4d2e8df8dca34dd66e6e9
+      size: 1475
+    outs:
+    - path: data/processed
+      hash: md5
+      md5: ee5670c7f612c9fd3fe518a578976a51.dir
+      size: 546385
+      nfiles: 2
+  model-building:
+    cmd: python src/model/model-building.py
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: ee5670c7f612c9fd3fe518a578976a51.dir
+      size: 546385
+      nfiles: 2
+    - path: src/model/model-building.py
+      hash: md5
+      md5: 539ae725c5da4a86812d4d206ee88bfd
+      size: 1369
+    params:
+      params.yaml:
+        model-building.n_estimators: 300
+    outs:
+    - path: models/random_forest_model.pkl
+      hash: md5
+      md5: 6ece17c02dfb8655ccc1b96a47b99ad9
+      size: 24668948
+  model-eval:
+    cmd: python src/model/model-eval.py
+    deps:
+    - path: models/random_forest_model.pkl
+      hash: md5
+      md5: 6ece17c02dfb8655ccc1b96a47b99ad9
+      size: 24668948
+    - path: src/model/model-eval.py
+      hash: md5
+      md5: 9f1511454a319087a99824e1e629d1b1
+      size: 1475
+    outs:
+    - path: reports/model_evaluation_metrics.json
+      hash: md5
+      md5: e5bd06778d2f7c359a4f1f805f0d5711
+      size: 150

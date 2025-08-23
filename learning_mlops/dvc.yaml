@@ -1,0 +1,32 @@
+stages:
+  data-collection:
+    cmd: python src/data/data-collection.py
+    deps:
+    - src/data/data-collection.py
+    params:
+    - data-collection.test_size
+    outs:
+    - data/raw
+  data-preprocessing:
+    cmd: python src/data/data-prep.py
+    deps:
+    - src/data/data-prep.py
+    - data/raw
+    outs:
+    - data/processed
+  model-building:
+    cmd: python src/model/model-building.py
+    deps:
+    - data/processed
+    - src/model/model-building.py
+    params:
+    - model-building.n_estimators
+    outs:
+    - models/random_forest_model.pkl
+  model-eval:
+    cmd: python src/model/model-eval.py
+    deps:
+    - models/random_forest_model.pkl
+    - src/model/model-eval.py
+    metrics:
+    - reports/model_evaluation_metrics.json
