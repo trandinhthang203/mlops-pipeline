@@ -1,6 +1,6 @@
 data-collection:
-  test_size: 0.10
+  test_size: 0.2
 
 
 model-building:
-  n_estimators: 300
+  n_estimators: 500

@@ -30,3 +30,10 @@ stages:
     - src/model/model-eval.py
     metrics:
     - reports/model_evaluation_metrics.json
+metrics:
+- dvclive/metrics.json
+plots:
+- dvclive/plots/metrics:
+    x: step
+params:
+- dvclive/params.yaml

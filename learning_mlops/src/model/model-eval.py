@@ -4,6 +4,8 @@ import os
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 import pickle
 import json
+import yaml
+from dvclive import Live
 
 def get_data(filepath: str) -> tuple[pd.DataFrame, pd.DataFrame]:
     try:
@@ -16,8 +18,21 @@ def get_data(filepath: str) -> tuple[pd.DataFrame, pd.DataFrame]:
 
 def write_metrics(X_test: pd.DataFrame, y_test: pd.DataFrame) -> None:
     try:
+        params = yaml.safe_load(open('params.yaml', 'r'))
+        test_size = params['data-collection']['test_size']
+        n_estimators = params['model-building']['n_estimators']
+
         model = pickle.load(open('models/random_forest_model.pkl', 'rb'))
         y_pred = model.predict(X_test)
+
+        with Live(save_dvc_exp= True) as live:
+            live.log_metric('accuracy', accuracy_score(y_test, y_pred))
+            live.log_metric('precision', precision_score(y_test, y_pred))
+            live.log_metric('f1-score', f1_score(y_test, y_pred))
+            live.log_metric('recall_score', recall_score(y_test, y_pred))
+
+            live.log_param("test_size", test_size)
+            live.log_param("n_estimators",n_estimators)
 
         metrics = {
             'accuracy': accuracy_score(y_test, y_pred),
